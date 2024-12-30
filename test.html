@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategorie Kwadratów</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: #333;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards ease-out;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s ease;
+        }
+        .square:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .hidden {
+            display: none;
+        }
+        .description {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards ease-out;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .back-button:hover {
+            background-color: #555;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1 id="mainTitle">TEST</h1>
+    <div class="container" id="main">
+        <div>
+            <div class="square" style="background-color: #3498db;" onclick="showSubSquares('#3498db', 1)">Kategoria 1</div>
+        </div>
+        <div>
+            <div class="square" style="background-color: #e74c3c;" onclick="showSubSquares('#e74c3c', 2)">Kategoria 2</div>
+        </div>
+        <div>
+            <div class="square" style="background-color: #2ecc71;" onclick="showSubSquares('#2ecc71', 3)">Kategoria 3</div>
+        </div>
+        <div>
+            <div class="square" style="background-color: #f1c40f;" onclick="showSubSquares('#f1c40f', 4)">Kategoria 4</div>
+        </div>
+        <div>
+            <div class="square" style="background-color: #9b59b6;" onclick="showSubSquares('#9b59b6', 5)">Kategoria 5</div>
+        </div>
+        <div>
+            <div class="square" style="background-color: #e67e22;" onclick="showSubSquares('#e67e22', 6)">Kategoria 6</div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="subSquares"></div>
+    <div class="description hidden" id="description"></div>
+    <button class="back-button hidden" onclick="goBack()" id="backButton">Powrót</button>
+
+    <script>
+        function showSubSquares(color, category) {
+            const subSquares = document.getElementById('subSquares');
+            const main = document.getElementById('main');
+            const backButton = document.getElementById('backButton');
+            const mainTitle = document.getElementById('mainTitle');
+            subSquares.innerHTML = '';
+            mainTitle.innerText = `Kategoria ${category}`;
+            for (let i = 1; i <= 4; i++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                square.style.backgroundColor = color;
+                square.innerText = `${i}`;
+                square.onclick = () => showDescription(category, i);
+                subSquares.appendChild(square);
+            }
+            main.classList.add('hidden');
+            subSquares.classList.remove('hidden');
+            backButton.classList.remove('hidden');
+        }
+
+        function showDescription(category, sub) {
+            const description = document.getElementById('description');
+            description.innerText = `Opis: To jest opis kwadratu Kategoria ${category} - ${sub}`;
+            description.classList.remove('hidden');
+        }
+
+        function goBack() {
+            document.getElementById('main').classList.remove('hidden');
+            document.getElementById('subSquares').classList.add('hidden');
+            document.getElementById('description').classList.add('hidden');
+            document.getElementById('backButton').classList.add('hidden');
+            document.getElementById('mainTitle').innerText = 'TEST';
+        }
+    </script>
+</body>
+</html>
